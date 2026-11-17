@@ -27,22 +27,21 @@ public class AdminMenu {
                     for (User u : userDao.getAllUsers()) {
                         System.out.println(u.toString());
                     }
-                    logDao.logAction(admin.id(), "VIEW_USERS", "Admin viewed all system users.");
+                    logDao.logAction(admin.getId(), "VIEW_USERS", "Admin viewed all system users.");
                     break;
                 case "2":
                     System.out.print("Enter username: ");
                     String username = scanner.nextLine();
                     System.out.print("Enter password: ");
                     String password = scanner.nextLine();
-                    System.out.print("Enter role (Admin/Cashier): "); // Updated role options to match DB constraint
+                    System.out.print("Enter role (Admin/Cashier): ");
                     String role = scanner.nextLine();
-                    System.out.print("Enter full name: "); // Added prompt for full name
+                    System.out.print("Enter full name: ");
                     String fullName = scanner.nextLine();
 
-                    // Updated to pass 4 arguments matching UserDao.registerUser
                     if (userDao.registerUser(username, password, role, fullName)) {
                         System.out.println("Account created successfully.");
-                        logDao.logAction(admin.id(), "CREATE_USER", "Created new " + role + " account: " + username);
+                        logDao.logAction(admin.getId(), "CREATE_USER", "Created new " + role + " account: " + username);
                     }
                     break;
                 case "3":
@@ -53,7 +52,7 @@ public class AdminMenu {
                         String newStatus = scanner.nextLine();
                         if (userDao.updateStatus(targetId, newStatus)) {
                             System.out.println("User status updated successfully.");
-                            logDao.logAction(admin.id(), "UPDATE_STATUS", "Updated user ID " + targetId + " status to " + newStatus);
+                            logDao.logAction(admin.getId(), "UPDATE_STATUS", "Updated user ID " + targetId + " status to " + newStatus);
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid ID format.");
@@ -61,10 +60,10 @@ public class AdminMenu {
                     break;
                 case "4":
                     ActivityLogViewer.displayLogs();
-                    logDao.logAction(admin.id(), "VIEW_LOGS", "Admin viewed activity logs.");
+                    logDao.logAction(admin.getId(), "VIEW_LOGS", "Admin viewed activity logs.");
                     break;
                 case "5":
-                    logDao.logAction(admin.id(), "LOGOUT", "Admin logged out.");
+                    logDao.logAction(admin.getId(), "LOGOUT", "Admin logged out.");
                     System.out.println("Logging out...");
                     return;
                 default:

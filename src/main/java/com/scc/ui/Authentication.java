@@ -28,8 +28,10 @@ public class Authentication {
 
                     User user = userDao.authenticate(username, password);
                     if (user != null) {
-                        System.out.println("Login successful! Welcome, " + user.username() + " (" + user.role() + ")");
-                        logDao.logAction(user.id(), "LOGIN", "User logged into the system.");
+                        // Use user.getRole() / user.getId() / user.getUsername() if using POJO,
+                        // or user.role() / user.id() / user.username() if using a Record.
+                        System.out.println("Login successful! Welcome, " + user.getUsername() + " (" + user.getRole() + ")");
+                        logDao.logAction(user.getId(), "LOGIN", "User logged into the system.");
                         return user;
                     } else {
                         System.out.println("Invalid username or password, or account inactive.");
@@ -40,7 +42,11 @@ public class Authentication {
                     String regUser = scanner.nextLine();
                     System.out.print("Choose password: ");
                     String regPass = scanner.nextLine();
-                    boolean success = userDao.registerUser(regUser, regPass, "Customer");
+                    System.out.print("Enter full name: "); // Added prompt to match 4-argument requirement
+                    String regFullName = scanner.nextLine();
+
+                    // Updated to pass 4 arguments: username, password, role, fullName
+                    boolean success = userDao.registerUser(regUser, regPass, "Customer", regFullName);
                     if (success) {
                         System.out.println("Registration successful! You can now log in.");
                     }

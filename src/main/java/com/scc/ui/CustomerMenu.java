@@ -18,16 +18,19 @@ public class CustomerMenu {
             switch (choice) {
                 case "1":
                     System.out.println(customer.toString());
-                    logDao.logAction(customer.id(),
+                    // Updated to use getId()
+                    logDao.logAction(customer.getId(),
                             "VIEW_PROFILE",
                             "Customer viewed profile info.");
                     break;
                 case "2":
                     System.out.println("Order placed successfully!");
-                    logDao.logAction(customer.id(), "PLACE_ORDER", "Customer placed a new service/order request.");
+                    // Updated to use getId()
+                    logDao.logAction(customer.getId(), "PLACE_ORDER", "Customer placed a new service/order request.");
                     break;
                 case "3":
-                    logDao.logAction(customer.id(), "LOGOUT", "Customer logged out.");
+                    // Updated to use getId()
+                    logDao.logAction(customer.getId(), "LOGOUT", "Customer logged out.");
                     System.out.println("Logging out...");
                     return;
                 default:

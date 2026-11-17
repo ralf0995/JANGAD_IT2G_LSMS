@@ -6,9 +6,15 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 
 public class DatabaseInitializer {
+
+    // Added to support calls looking for .initialize()
+    public static void initialize() {
+        initializeDatabase();
+    }
+
     public static void initializeDatabase() {
-        // 1. Create the User table (Parent table)
-        String createUsersTable = "CREATE TABLE IF NOT EXISTS user (" +
+        // 1. Create the Users table (Parent table) - Changed table name from 'user' to 'users'
+        String createUsersTable = "CREATE TABLE IF NOT EXISTS users (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "username TEXT NOT NULL UNIQUE, " +
                 "password_hash TEXT NOT NULL, " +
@@ -17,7 +23,7 @@ public class DatabaseInitializer {
                 "status TEXT DEFAULT 'Active', " +
                 "created_at DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
-        // 2. Create the Customers table (Links to User)
+        // 2. Create the Customers table (Links to Users)
         String createCustomersTable = "CREATE TABLE IF NOT EXISTS customers (" +
                 "customer_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "user_id INTEGER, " +
@@ -25,7 +31,7 @@ public class DatabaseInitializer {
                 "contact_no TEXT, " +
                 "address TEXT, " +
                 "created_at DATETIME DEFAULT CURRENT_TIMESTAMP, " +
-                "FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL);";
+                "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL);";
 
         // 3. Create the Transactions table (Links to Customers and Users)
         String createTransactionsTable = "CREATE TABLE IF NOT EXISTS transactions (" +
@@ -38,7 +44,7 @@ public class DatabaseInitializer {
                 "status TEXT DEFAULT 'Pending', " +
                 "date_created DATETIME DEFAULT CURRENT_TIMESTAMP, " +
                 "FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE, " +
-                "FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE RESTRICT);";
+                "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT);";
 
         // 4. Create the Activity_logs table (Links to Users)
         String createActivityLogsTable = "CREATE TABLE IF NOT EXISTS activity_logs (" +
@@ -48,7 +54,7 @@ public class DatabaseInitializer {
                 "table_affected TEXT NOT NULL, " +
                 "record_id INTEGER, " +
                 "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, " +
-                "FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL);";
+                "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL);";
 
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement()) {

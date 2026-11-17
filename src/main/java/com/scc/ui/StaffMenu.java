@@ -19,14 +19,17 @@ public class StaffMenu {
             switch (choice) {
                 case "1":
                     System.out.println("Executing staff task...");
-                    logDao.logAction(staff.id(), "STAFF_TASK", "Performed routine staff task.");
+                    // Updated to use getId()
+                    logDao.logAction(staff.getId(), "STAFF_TASK", "Performed routine staff task.");
                     break;
                 case "2":
                     ActivityLogViewer.displayLogs();
-                    logDao.logAction(staff.id(), "VIEW_LOGS", "Staff viewed activity logs.");
+                    // Updated to use getId()
+                    logDao.logAction(staff.getId(), "VIEW_LOGS", "Staff viewed activity logs.");
                     break;
                 case "3":
-                    logDao.logAction(staff.id(), "LOGOUT", "Staff logged out.");
+                    // Updated to use getId()
+                    logDao.logAction(staff.getId(), "LOGOUT", "Staff logged out.");
                     System.out.println("Logging out...");
                     return;
                 default:
