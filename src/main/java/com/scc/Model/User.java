@@ -12,23 +12,51 @@ public class User {
 
     public User(int id, String username, String password, String role, String status, String fullName) {
         this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.status = status;
-        this.fullName = fullName;
+        this.username = requireNonBlank(username, "username");
+        this.password = requireNonBlank(password, "password");
+        this.role = requireNonBlank(role, "role");
+        this.status = requireNonBlank(status, "status");
+        this.fullName = requireNonBlank(fullName, "fullName");
     }
 
-    public int getId() { return id; }
-    public String getUsername() { return username; }
-    public String getPassword() { return password; }
-    public String getRole() { return role; }
-    public String getStatus() { return status; }
-    public String getFullName() { return fullName; }
+    public User(String username, String password, String role, String fullName) {
+        this(0, username, password, role, "Active", fullName);
+    }
+
+    private static String requireNonBlank(String value, String fieldName) {
+        if (value == null || value.trim().isEmpty()) {
+            throw new IllegalArgumentException(fieldName + " must not be null or blank.");
+        }
+        return value.trim();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
 
     @Override
     public String toString() {
-        return String.format("[%d] %s (%s) - status: %s", id, username, role, status);
+        return String.format("[%d] %s (%s) - %s [%s]", id, username, role, fullName, status);
     }
 
     @Override
